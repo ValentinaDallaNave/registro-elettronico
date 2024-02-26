@@ -1,0 +1,6 @@
+Registro elettronico (Dalla Nave, Maralit) Creare un sito web di registro elettronico con tre pagine:
+creare una pagina accessibile solo tramite login con utente admin, che permette di creare: a) un elenco di studenti (nome e cognome) b) un elenco di materie c) dare un nome alla classe E' prevista una sola classe. Una volta creata, è possibile salvare i dati della classe tramite cache remota.
+creare una pagina accessibile solo tramite login con utente prof (vedi sotto), che permette di:
+visualizzare una tabella con i nomi degli studenti come righe e le materie come classi ed in ogni cella è possibile visualizzare il voto o eventualmente modificarlo.
+creare una pagina pubblica che permette di accedere alla pagina: identica alla pagina precedente, ma senza login e con i voti in sola visualizzazione
+Inserire una classe con almeno 10 studenti, e almeno 8 materie.
