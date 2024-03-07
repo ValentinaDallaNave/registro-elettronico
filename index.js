@@ -27,7 +27,19 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.post("/dataset", (req, res) => {
+app.post("/admin/materia", (req, res) => {
+  const data = req.body.nome;
+  salva(data); //funzione che inserisce i dati nel database
+  res.json({ result: "ok" });
+});
+
+app.post("/admin/classe", (req, res) => {
+  const data = req.body;
+  salva(data); //funzione che inserisce i dati nel database
+  res.json({ result: "ok" });
+});
+
+app.post("/admin/studente", (req, res) => {
   const data = req.body;
   salva(data); //funzione che inserisce i dati nel database
   res.json({ result: "ok" });
