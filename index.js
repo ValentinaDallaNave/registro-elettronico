@@ -27,6 +27,16 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.post("/dataset", (req, res) => {
+  const data = req.body;
+  salva(data); //funzione che inserisce i dati nel database
+  res.json({ result: "ok" });
+});
+
+app.get("/dataget", (req, res) => {
+  //select
+});
+
 //http
 const server = http.createServer(app);
 server.listen(80, () => {
