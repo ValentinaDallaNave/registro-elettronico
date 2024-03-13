@@ -1,27 +1,22 @@
 # registro-elettronico
 
-Modulo database: select, insert, update =>mysql
-Modulo server: post, get, put =>express, http
+Modulo database: select, insert => mysql
+Modulo server: post, get, put => express, http
 Modulo client_render: tutte le render
 Modulo client_comunicazione: send, load, fetch, login
 Modulo admin: eventi utente admin
 Modulo prof: eventi utente professore
 Modulo pubblico: visualizzazione pubblica
 
-Struttura dell'array che l'admin invia al server: 
 
 Modello logico-relazionale:
-Classe(id(PK), anno, lettera, indirizzo)
-Studente(id(PK), nome, cognome)
-Materia(id(PK), nome)
+Classe(id_classe(PK), anno, lettera, indirizzo)
+Studente(id_stud(PK), nome, cognome)
+Materia(id_mat(PK), materia)
 
 FaParte(classe(PK)(FK),studente(PK)(FK))
 Contiene(classe(PK)(FK),materia(PK)(FK))
 Voto(studente(PK)(FK),classe(PK)(FK),materia(PK)(FK))
-
-ma si aggiungono tutti insieme, o uno per volta?
-l'admin crea la classe e la invia, una classe alla volta, lo stesso vale per le materie ecc non si può modificare niente, c'è scritto solo aggiungere
-Si possono modificare le materie,classi e studenti?okoko
 
 
 
