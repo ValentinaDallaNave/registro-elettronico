@@ -14,9 +14,8 @@ Classe(id_classe(PK), anno, lettera, indirizzo)
 Studente(id_stud(PK), nome, cognome)
 Materia(id_mat(PK), materia)
 
-FaParte(classe(PK)(FK),studente(PK)(FK))
-Contiene(classe(PK)(FK),materia(PK)(FK))
-Voto(studente(PK)(FK),classe(PK)(FK),materia(PK)(FK))
+Partecipa(classe(PK)(FK),studente(PK)(FK))
+Voto(studente(PK)(FK),materia(PK)(FK))
 
 
 
@@ -25,15 +24,11 @@ Post con 3 url:
 {nome:"nome"}
 
 /admin/classe
-{anno:5,lettera:"B",indirizzo:"inf",materie:[lista degli id delle materie]}
-*quindi devi prima inserire le materie
-
-nel server si salva la classe nel database, e la lista delle materie si usa per creare i "Contiene"
-ce prima insert della Classe, poi prendi l'id di questo, e fai insert di 
+{anno:5,lettera:"B",indirizzo:"inf"}
 
 /admin/studente
 {nome:"nome",cognome:"cognome",classi:[lista id classi]}
-*quindi devi inserire prima sia le classe che le materie
+*quindi devi inserire prima le classi
 
-nel server si salva lo studente, e la lista delle classe si usa per creare i "FaParte"
+nel server si salva lo studente, e la lista delle classe si usa per inserire i "Partecipa"
 ce prima insert dello Studente, poi prendi l'id di questo studente, e fai insert di FaParte

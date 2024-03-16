@@ -6,6 +6,7 @@ const conf = require("./conf.js");
 const connection = mysql.createConnection(conf);
 
 const executeQuery = (sql) => {
+  // per eseguire qualsiasi query
   return new Promise((resolve, reject) => {
     connection.query(sql, function (err, result) {
       if (err) {
@@ -18,6 +19,7 @@ const executeQuery = (sql) => {
 };
 
 const createTables = async () => {
+  // creazione tabelle se non esistono
   await executeQuery(`
     CREATE TABLE IF NOT EXISTS Classe
     ( id_classe INT PRIMARY KEY AUTO_INCREMENT, 
@@ -54,10 +56,16 @@ const createTables = async () => {
       FOREIGN KEY (studente) REFERENCES Studente(id_stud),
       FOREIGN KEY (materia) REFERENCES Materia(id_mat) ) 
   `);
-  console.log("Tabelle create");
+  await executeQuery(`  
+    CREATE TABLE IF NOT EXISTS Utente
+    ( username VARCHAR(255) PRIMARY KEY NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      tipo VARCHAR(255) NOT NULL ) 
+  `);
 };
 
 const formatted_values = (values) => {
+  // formattazione valori per un Insert
   let list = "";
   Object.values(values).forEach((e) => {
     if (typeof e === "string") {
@@ -70,6 +78,7 @@ const formatted_values = (values) => {
 };
 
 const insert = (table, values) => {
+  // insert nel database
   const query = `
    INSERT INTO ${table} (${Object.keys(values).join()})
    VALUES (${formatted_values(values)})
@@ -78,8 +87,8 @@ const insert = (table, values) => {
   return executeQuery(query);
 };
 
-// select di tutti i record di una tabella
 const select = (table, columns) => {
+  // select nel database di tutte le tuple di una tabella
   const query = `
    SELECT ${columns.join()} FROM ${table}
       `;
@@ -87,11 +96,28 @@ const select = (table, columns) => {
   return executeQuery(query);
 };
 
+const checkLogin = async (tipo, username, password) => {
+  // check nel database dell'esistenza dell'utente
+  // ritorna 0 o 1
+  return (
+    await executeQuery(
+      `
+  SELECT * FROM Utente
+  WHERE Utente.username = '${username}'
+    AND Utente.password = '${password}'
+    AND Utente.tipo = '${tipo}'
+  `,
+    )
+  ).length;
+};
+
 const get_last_id = async () => {
-  return await executeQuery("SELECT LAST_INSERT_ID()")[0]["LAST_INSERT_ID()"];
+  // ritorna l'ultimo id auto-generato
+  return (await executeQuery("SELECT LAST_INSERT_ID()"))[0]["LAST_INSERT_ID()"];
 };
 
 const get_voti_all = async () => {
+  // ritorna tutti i voti di tutti
   return await executeQuery(
     `
     SELECT Studente.id_stud,Materia.id_mat,Voto.voto 
@@ -103,6 +129,7 @@ const get_voti_all = async () => {
 };
 
 const get_voti_class = async (classe) => {
+  // ritorna tutti i voti di una classe
   return await executeQuery(
     `
     SELECT Studente.id_stud,Materia.id_mat,Voto.voto 
@@ -124,4 +151,5 @@ module.exports = {
   get_voti_class: get_voti_class,
   insert: insert,
   select: select,
+  checkLogin: checkLogin,
 };
