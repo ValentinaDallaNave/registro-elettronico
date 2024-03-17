@@ -29,8 +29,22 @@ const send = async (url, data, credentials) => {
   return response.json();
 };
 
+const update = async (url, data, credentials) => {
+  // Per il servizio con metodo Put servono le credenziali prof
+  let response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      username: credentials.username,
+      password: credentials.password,
+    },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+};
+
 const load = async (url) => {
   return (await fetch(url)).json();
 };
 
-export { login, send, load };
+export { login, send, load, update };

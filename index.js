@@ -107,7 +107,7 @@ app.post("/prof/insert", async (req, res) => {
     req.headers.password,
   );
   if (result) {
-    //quello che deve fare
+    await db.insert("Voto", req.body);
     res.json({ result: "ok" });
   } else {
     res.status(401); //401 è il codice http Unauthorized)
@@ -122,7 +122,7 @@ app.put("/prof/update", async (req, res) => {
     req.headers.password,
   );
   if (result) {
-    //quello che deve fare
+    await db.update_voto(req.body.id_stud, req.body.id_mat, req.body.voto);
     res.json({ result: "ok" });
   } else {
     res.status(401); //401 è il codice http Unauthorized)
@@ -138,6 +138,8 @@ app.get("/get/data/:param", async (req, res) => {
     result = await db.select("Studente", ["*"]);
   } else if (req.params.param === "materie") {
     result = await db.select("Materia", ["*"]);
+  } else {
+    result = await db.get_classe(req.params.param);
   }
   res.json({ result: result });
 });

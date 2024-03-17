@@ -123,7 +123,7 @@ const get_voti_all = async () => {
     SELECT Studente.id_stud,Materia.id_mat,Voto.voto 
     FROM Studente, Materia, Voto
     WHERE Studente.id_stud = Voto.studente
-      AND Voto.materia = Materia.id_stud
+      AND Voto.materia = Materia.id_mat
     `,
   );
 };
@@ -137,7 +137,31 @@ const get_voti_class = async (classe) => {
     WHERE Classe.id_classe = Partecipa.classe
       AND Partecipa.studente = Studente.id_stud
       AND Studente.id_stud = Voto.studente
-      AND Voto.materia = Materia.id_stud
+      AND Voto.materia = Materia.id_mat
+      AND Classe.id_classe = '${classe}'
+    `,
+  );
+};
+
+const update_voto = async (id_stud, id_mat, voto) => {
+  return await executeQuery(
+    `
+    UPDATE Voto
+    SET Voto.voto = ${voto}
+    WHERE Voto.studente = ${id_stud}
+      AND Voto.materia = ${id_mat}
+    `,
+  );
+};
+
+const get_classe = async (classe) => {
+  // ritorna tutti i voti di una classe
+  return await executeQuery(
+    `
+    SELECT Partecipa.classe, Partecipa.studente
+    FROM Partecipa, Classe, Studente
+    WHERE Classe.id_classe = Partecipa.classe
+      AND Partecipa.studente = Studente.id_stud
       AND Classe.id_classe = '${classe}'
     `,
   );
@@ -149,6 +173,8 @@ module.exports = {
   get_last_id: get_last_id,
   get_voti_all: get_voti_all,
   get_voti_class: get_voti_class,
+  update_voto: update_voto,
+  get_classe: get_classe,
   insert: insert,
   select: select,
   checkLogin: checkLogin,

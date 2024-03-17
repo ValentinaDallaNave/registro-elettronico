@@ -72,9 +72,22 @@
 
     <div id="div_private" class="bg-white pt-4 container d-none">
       <div class="row">
-        <table class="table" id="table_classi"></table>
+        <h3 class="text-center" id="testo"><b>Le tue classi</b></h3>
+        <table class="table table-striped" id="table_classi"></table>
+        <table class="table" id="table_classe"></table>
+        <div class="row d-none justify-content-end" id="s">
+          <div class="col-auto">
+            <button type="button" id="salva" class="btn btn-primary">
+              SALVA
+            </button>
+            <button type="button" id="indietro" class="btn btn-primary">
+              INDIETRO
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <script src="prof.js" type="module"></script>
+    <script src="render.js" type="module"></script>
   </body>
 </html>

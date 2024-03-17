@@ -1,5 +1,12 @@
 # registro-elettronico
 
+Credenziali admin:
+admin admin
+
+Credenziali prof:
+prof prof
+mariorossi 1234
+
 Modulo database: select, insert => mysql
 Modulo server: post, get, put => express, http
 Modulo client_render: tutte le render
@@ -15,7 +22,7 @@ Studente(id_stud(PK), nome, cognome)
 Materia(id_mat(PK), materia)
 
 Partecipa(classe(PK)(FK),studente(PK)(FK))
-Voto(studente(PK)(FK),materia(PK)(FK))
+Voto(studente(PK)(FK),materia(PK)(FK),voto)
 
 
 
@@ -31,4 +38,3 @@ Post con 3 url:
 *quindi devi inserire prima le classi
 
 nel server si salva lo studente, e la lista delle classe si usa per inserire i "Partecipa"
-ce prima insert dello Studente, poi prendi l'id di questo studente, e fai insert di FaParte
