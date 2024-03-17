@@ -7,6 +7,7 @@ import {
 const btn_login = document.getElementById("btn_login");
 const in_pass = document.getElementById("in_pass");
 const in_user = document.getElementById("in_user");
+const error_msg = document.getElementById("error_msg");
 
 const form_mat = document.getElementById("form_mat");
 const in_nome_mat = document.getElementById("in_nome_mat");
@@ -29,19 +30,22 @@ const ins_stud_fdbck = document.getElementById("ins_stud_fdbck");
 
 const tags_classi_stud = document.getElementById("tags_classi_stud");
 
-let classi_stud = [];
-let classi = [];
+let classi_stud = []; // classi scelte per lo studente
+let classi = []; // tutte le classi
 let credentials = {};
 
 const div_login = document.getElementById("div_login");
 const div_private = document.getElementById("div_private");
 
+//LOGIN
 btn_login.onclick = async () => {
   // la funzione login restituisce true o false
   if (await login("admin", in_user.value, in_pass.value)) {
     // le credenziali vengono salvate per i servizi admin
     credentials.username = in_user.value;
     credentials.password = in_pass.value;
+    error_msg.classList.remove("d-block");
+    error_msg.classList.add("d-none");
     div_login.classList.remove("d-block");
     div_login.classList.add("d-none");
     div_private.classList.remove("d-none");
@@ -50,9 +54,14 @@ btn_login.onclick = async () => {
     classi = (await load("/get/data/classi")).result;
     // render delle classi disponibili
     render_in_classe_stud(classi);
+  } else {
+    in_pass.value = "";
+    error_msg.classList.remove("d-none");
+    error_msg.classList.add("d-block");
   }
 };
 
+//MATERIA
 ins_mat.onclick = async () => {
   // salvataggio della materia
   if (in_nome_mat.value) {
@@ -64,6 +73,7 @@ ins_mat.onclick = async () => {
   }
 };
 
+//CLASSE
 ins_classe.onclick = async () => {
   // salvataggio della classe
   if (in_anno_classe.value && in_lett_classe.value && in_ind_classe.value) {
@@ -83,6 +93,7 @@ ins_classe.onclick = async () => {
   }
 };
 
+//STUDENTE
 ins_stud.onclick = async () => {
   // salvataggio dello studente
   if (in_nome_stud.value && in_cogn_stud.value && classi_stud) {
@@ -112,6 +123,7 @@ ins_stud.onclick = async () => {
   }
 };
 
+//CLASSI DELLO STUDENTE
 in_classe_stud.onchange = () => {
   // selezionando una classe, viene aggiunta alla lista delle classi dello studente
   if (!classi_stud.includes(parseInt(in_classe_stud.value))) {

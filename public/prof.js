@@ -1,5 +1,6 @@
 import { login, send, load } from "./remote.js";
 const div_login = document.getElementById("div_login");
+const div_private = document.getElementById("div_private");
 const username = document.getElementById("username");
 const password = document.getElementById("password");
 const invia = document.getElementById("invia");
@@ -16,8 +17,8 @@ invia.onclick = async () => {
     credentials.password = password.value;
     div_login.classList.remove("d-block");
     div_login.classList.add("d-none");
-    table_classi.classList.remove("d-none");
-    table_classi.classList.add("d-block");
+    div_private.classList.remove("d-none");
+    div_private.classList.add("d-block");
     // richiesta delle classi
     result = await load("/get/data/classi");
     classi = result.result;

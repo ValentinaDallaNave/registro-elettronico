@@ -1,0 +1,19 @@
+body {
+  background-image: url("background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+#div_private {
+  height: 100vh;
+}
+
+#div_login {
+  height: 100vh;
+}
+
+.full {
+  height: 100vh;
+  width: 100vw;
+}
