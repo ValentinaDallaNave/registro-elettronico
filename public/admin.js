@@ -1,5 +1,6 @@
 import { login, send, load } from "./remote.js";
 import {
+  render_ul,
   render_tags_classi_stud,
   render_in_classe_stud,
 } from "./admin_render.js";
@@ -31,11 +32,25 @@ const ins_stud_fdbck = document.getElementById("ins_stud_fdbck");
 const tags_classi_stud = document.getElementById("tags_classi_stud");
 
 let classi_stud = []; // classi scelte per lo studente
+let materie = []; // tutte le materie
 let classi = []; // tutte le classi
+let studenti = []; // tutte gli studenti
 let credentials = {};
 
 const div_login = document.getElementById("div_login");
 const div_private = document.getElementById("div_private");
+
+const reload_tables = async () => {
+  // richieste
+  materie = (await load("/get/data/materie")).result;
+  classi = (await load("/get/data/classi")).result;
+  studenti = (await load("/get/data/studenti")).result;
+  // render
+  await render_ul("materie", materie);
+  await render_ul("classi", classi);
+  await render_ul("studenti", studenti);
+  await render_in_classe_stud(classi);
+};
 
 //LOGIN
 btn_login.onclick = async () => {
@@ -50,10 +65,7 @@ btn_login.onclick = async () => {
     div_login.classList.add("d-none");
     div_private.classList.remove("d-none");
     div_private.classList.add("d-block");
-    // richiesta delle classi per l'input dello studente
-    classi = (await load("/get/data/classi")).result;
-    // render delle classi disponibili
-    render_in_classe_stud(classi);
+    await reload_tables();
   } else {
     in_pass.value = "";
     error_msg.classList.remove("d-none");
@@ -66,6 +78,7 @@ ins_mat.onclick = async () => {
   // salvataggio della materia
   if (in_nome_mat.value) {
     await send("/admin/materia", { materia: in_nome_mat.value }, credentials);
+    await reload_tables();
     ins_mat_fdbck.innerText = "Materia inserita";
     form_mat.reset();
   } else {
@@ -86,6 +99,7 @@ ins_classe.onclick = async () => {
       },
       credentials,
     );
+    await reload_tables();
     ins_classe_fdbck.innerText = "Classe inserita";
     form_classe.reset();
   } else {
@@ -111,6 +125,7 @@ ins_stud.onclick = async () => {
       },
       credentials,
     );
+    await reload_tables();
     ins_stud_fdbck.innerText = "Studente inserito";
     form_stud.reset();
     in_classe_stud.value = "";

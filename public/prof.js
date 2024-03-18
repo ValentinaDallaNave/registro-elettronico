@@ -1,5 +1,5 @@
 import { login, send, load, update } from "./remote.js";
-import { render_classi } from "./render.js";
+import { render_classi, render_voti } from "./render.js";
 const div_login = document.getElementById("div_login");
 const div_private = document.getElementById("div_private");
 const error_msg = document.getElementById("error_msg");
@@ -8,7 +8,7 @@ const password = document.getElementById("password");
 const invia = document.getElementById("invia");
 const salva = document.getElementById("salva");
 const indietro = document.getElementById("indietro");
-
+let c = "";
 let classi = [];
 let credentials = {};
 let classe = [];
@@ -40,6 +40,7 @@ invia.onclick = async () => {
 };
 
 export async function load_classe(clas) {
+  c = clas;
   let cla = await load("/get/data/" + clas);
   let materie = await load("/get/data/materie");
   let studenti = await load("/get/data/studenti");
@@ -73,14 +74,20 @@ salva.onclick = () => {
           id_mat: id_mat,
           voto: parseInt(element.value),
         };
-        console.log(elemento);
-        if (voti.includes({ id_stud: id_stud, id_mat: id_mat })) {
+        if (
+          voti.find(
+            (voto) =>
+              voto.id_stud === elemento.id_stud &&
+              voto.id_mat === elemento.id_mat &&
+              voto.voto !== elemento.voto,
+          ) !== undefined
+        ) {
           update(
             "/prof/update",
             {
               studente: id_stud,
               materia: id_mat,
-              voto: element.value,
+              voto: parseInt(element.value),
             },
             {
               username: username.value,
@@ -89,18 +96,20 @@ salva.onclick = () => {
           ).then((result) => {
             console.log(result);
           });
-        } else if (!voti.includes(elemento)) {
-          voti.push({
-            id_stud: id_stud,
-            id_mat: id_mat,
-            voto: parseInt(element.value),
-          });
+        } else if (
+          voti.find(
+            (voto) =>
+              voto.id_stud === elemento.id_stud &&
+              voto.id_mat === elemento.id_mat &&
+              voto.voto === elemento.voto,
+          ) === undefined
+        ) {
           send(
             "/prof/insert",
             {
               studente: id_stud,
               materia: id_mat,
-              voto: element.value,
+              voto: parseInt(element.value),
             },
             {
               username: username.value,
@@ -114,6 +123,8 @@ salva.onclick = () => {
     }
   });
   console.log(voti);
+  classe = [];
+  render_voti(c);
 };
 
 indietro.onclick = () => {

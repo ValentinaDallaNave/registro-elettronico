@@ -122,7 +122,7 @@ app.put("/prof/update", async (req, res) => {
     req.headers.password,
   );
   if (result) {
-    await db.update_voto(req.body.id_stud, req.body.id_mat, req.body.voto);
+    await db.update_voto(req.body.studente, req.body.materia, req.body.voto);
     res.json({ result: "ok" });
   } else {
     res.status(401); //401 è il codice http Unauthorized)

@@ -3,13 +3,15 @@ const table_classi = document.getElementById("table_classi");
 const table_classe = document.getElementById("table_classe");
 const testo = document.getElementById("testo");
 const div_salva = document.getElementById("s");
+let c = "";
 
-async function render_voti(clas) {
+export async function render_voti(clas) {
+  let lista = await load_classe(clas);
+  testo.innerHTML = `<h1><b>Classe: ${c.anno} ${c.lettera} ${c.indirizzo}</b></h1>`;
   table_classi.classList.remove("d-block");
   table_classi.classList.add("d-none");
   table_classe.classList.remove("d-none");
   table_classe.classList.add("d-block");
-  let lista = await load_classe(clas);
   let classe = lista.classe;
   let materie = lista.materie;
   let voti = lista.voti;
@@ -48,14 +50,17 @@ async function render_voti(clas) {
 }
 
 export function render_classi(classi) {
+  testo.innerText = `Le tue classi`;
   div_salva.classList.remove("d-flex");
   div_salva.classList.add("d-none");
   table_classe.classList.remove("d-block");
   table_classe.classList.add("d-none");
   table_classi.classList.remove("d-none");
+  const template_head = `
+  <tr><th>Anno</th><th>Classe</th><th>Apri</th></tr>`;
   const template = `<tr><td>%anno</td>
  <td>%lettera %indirizzo</td><td>
- <button type="button" id="apri" class="apri btn btn-outline-primary" >Apri</button></td></tr>`;
+ <button type="button" id="apri" class="apri btn btn-primary" >Apri</button></td></tr>`;
   let html = ``;
   classi.forEach((element) => {
     html += template
@@ -64,19 +69,18 @@ export function render_classi(classi) {
       .replace("%indirizzo", element.indirizzo)
       .replace("apri", "apri" + element.id_classe);
   });
-  table_classi.innerHTML = html;
+  table_classi.innerHTML = template_head + html;
 
   let buttons = document.querySelectorAll(".apri");
   buttons.forEach((element) => {
     element.onclick = () => {
       let id = parseInt(element.id.replace("apri", ""));
-      let c = "";
       classi.forEach((element) => {
         if (element.id_classe === id) {
           c = element;
         }
       });
-      testo.innerHTML = `<h1><b>Classe: ${c.anno} ${c.lettera} ${c.indirizzo}</b></h1>`;
+
       render_voti(id);
     };
   });

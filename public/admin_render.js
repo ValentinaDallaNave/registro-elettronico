@@ -1,6 +1,29 @@
 const tags_classi_stud = document.getElementById("tags_classi_stud");
 const in_classe_stud = document.getElementById("in_classe_stud");
+const ul_materie = document.getElementById("materie");
+const ul_classi = document.getElementById("classi");
+const ul_studenti = document.getElementById("studenti");
 
+const render_ul = (name, list) => {
+  let html = `<li
+      class="list-group-item list-group-item-secondary text-center"
+    >
+      <h4>${name.charAt(0).toUpperCase() + name.slice(1)}<h4>
+    </li>`;
+  document.getElementById(name).innerHTML = "";
+  list.forEach((e) => {
+    let string = "";
+    if (name === "materie") {
+      string = e.materia;
+    } else if (name === "classi") {
+      string = `${e.anno} ${e.lettera} ${e.indirizzo}`;
+    } else {
+      string = `${e.nome} ${e.cognome}`;
+    }
+    html += `<li class="list-group-item">${string}</li>`;
+  });
+  document.getElementById(name).innerHTML = html;
+};
 
 const render_tags_classi_stud = (classi_stud, classi) => {
   // render delle classi selezionate per lo studente
@@ -40,4 +63,4 @@ const render_in_classe_stud = (classi) => {
   in_classe_stud.value = "";
 };
 
-export { render_tags_classi_stud, render_in_classe_stud, bind };
+export { render_ul, render_tags_classi_stud, render_in_classe_stud, bind };
