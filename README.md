@@ -26,7 +26,7 @@ Voto(studente(PK)(FK),materia(PK)(FK),voto)
 
 
 
-Post con 3 url:
+Post per l'admin con 3 url:
 /admin/materia
 {nome:"nome"}
 
@@ -35,6 +35,4 @@ Post con 3 url:
 
 /admin/studente
 {nome:"nome",cognome:"cognome",classi:[lista id classi]}
-*quindi devi inserire prima le classi
-
 nel server si salva lo studente, e la lista delle classe si usa per inserire i "Partecipa"
